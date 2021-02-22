@@ -1,9 +1,18 @@
 package com.ml.FlightsApi.model.response;
 
-public class BookingResponseDTO {
+public class ReservationDTO {
     String userName;
     double amount, interest, total;
+    FlightReservationDTO flightReservation;
     StatusCode statusCode;
+
+    public FlightReservationDTO getFlightReservation() {
+        return flightReservation;
+    }
+
+    public void setFlightReservation(FlightReservationDTO flightReservation) {
+        this.flightReservation = flightReservation;
+    }
 
     public String getUserName() {
         return userName;

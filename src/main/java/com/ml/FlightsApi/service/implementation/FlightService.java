@@ -32,7 +32,6 @@ public class FlightService implements IFlightService {
         return flights.stream().filter(predicate).collect(toList());
     }
 
-
     private void validateFilters(Map<String, String> filters){
         if(filters!=null) {
             FlightFilter destination = new Destination();
@@ -57,10 +56,5 @@ public class FlightService implements IFlightService {
     public List<FlightDTO> get(Map<String, String> filters) {
         validateFilters(filters);
         return applyFilters(flights.getAll(), filters);
-    }
-
-    @Override
-    public void modifyAvailability(Map<String, String> filter, Map<String, String> map) {
-
     }
 }
