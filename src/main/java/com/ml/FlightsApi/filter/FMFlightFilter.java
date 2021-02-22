@@ -1,5 +1,6 @@
 package com.ml.FlightsApi.filter;
 
+import com.ml.FlightsApi.exception.implementation.FilterNotFoundException;
 import com.ml.FlightsApi.filter.concret.*;
 import com.ml.FlightsApi.model.FlightDTO;
 
@@ -26,17 +27,11 @@ public class FMFlightFilter {
     private static FlightFilter getConcretFilter(String filter, String value) {
         for (FlightFilter concretFilter:getAllFilters()) {
             if(concretFilter.matchFilterName(filter)) {
-                try {
-                    concretFilter.setValue(value);
-                    return concretFilter;
-                } catch (Exception e){
-                    String message = "Tipo ingresado para el filtro "+concretFilter.getFilterName() +" no es valido.";
-                    //throw new WrongCastFilterException(message, e);
-                }
+                concretFilter.setValue(value);
+                return concretFilter;
             }
         }
-        return null;
-        //throw new FilterNotFoundException("Filtro [" + filter + "] no reconocido.", new Exception());
+        throw new FilterNotFoundException("Filtro [" + filter + "] no reconocido.", new Exception());
     }
 
     private static List<FlightFilter> getAllFilters(){

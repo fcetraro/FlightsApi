@@ -17,7 +17,7 @@ public class DateFrom extends FlightFilter {
 
     @Override
     public Predicate<FlightDTO> getPredicate() {
-        return w -> w.getDateFrom().before(dateFrom) || w.getDateFrom().equals(dateFrom);
+        return w -> w.getDateFrom().equals(dateFrom);
     }
 
     @Override
