@@ -15,6 +15,7 @@ import static com.ml.FlightsApi.stubs.FullReservationStub.getFullNewReservationS
 import static com.ml.FlightsApi.stubs.NewFlightReservationStub.getFlightReservationStub;
 import static com.ml.FlightsApi.stubs.PaymentMethodStub.getInvalidCreditPaymentMethod;
 import static com.ml.FlightsApi.stubs.PaymentMethodStub.getInvalidDebitPaymentMethod;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -32,10 +33,15 @@ class FlightsApiApplicationTests {
 
 	@Test
 	void shouldGetAllAndBeOk() throws  Exception {
-		String request =  url.concat("flights?destination=Bogotá&dateFrom=05/10/2021&dateTo=06/10/2021&origin=Puerto Iguazú");
+		String request =  url.concat("flights?destination=Bogotá&dateFrom=10/02/2021&dateTo=20/02/2021&origin=" +
+				"Puerto Iguazú");
+		String expectedResult = "[{\"code\":\"PIBA-1420\",\"origin\":\"Puerto Iguaz\u00fa\",\"destination\":" +
+				"\"Bogot\u00e1\",\"seatType\":\"Business\",\"pricePerPerson\":43.2,\"dateFrom\":\"" +
+				"2021-02-10T03:00:00.000+00:00\",\"dateTo\":\"2021-02-20T03:00:00.000+00:00\"}]";
 		this.mockMvc.perform(get(request))
 				.andDo(print())
-				.andExpect(status().isOk());
+				.andExpect(status().isOk())
+				.andExpect(content().json(expectedResult));;
 	}
 
 	@Test
@@ -126,6 +132,7 @@ class FlightsApiApplicationTests {
 		this.mockMvc.perform(post(request)
 				.contentType(MediaType.APPLICATION_JSON).content(requestJson))
 				.andDo(print())
-				.andExpect(status().isOk());
+				.andExpect(status().isOk())
+				.andExpect(content().string(containsString("86.4")));
 	}
 }
